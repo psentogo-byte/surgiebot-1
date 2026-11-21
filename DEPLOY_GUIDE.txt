@@ -1,0 +1,53 @@
+====================================================================
+SURGIE BOT — PERMANENT 24/7 PUBLIC CLOUD DEPLOYMENT GUIDE
+====================================================================
+
+This folder contains the unified single-port production server (`app.py`)
+combining:
+  - Surgie Bot Website (`/`)
+  - Live DAX 40, Gold & Bitcoin Sentinel Terminal (`/sentinel/`)
+  - Real-Time Execution Bot & Exness MT5 Bridge (`/sentinel/api/bot/*`)
+  - PC Desktop Bundle Download (`/download/pc-bundle`)
+
+--------------------------------------------------------------------
+OPTION 1: RENDER.COM (FREE / EASIEST PERMANENT URL)
+--------------------------------------------------------------------
+1. Unzip `Surgie_Bot_Cloud_Deploy.zip` and push the folder to a GitHub
+   repository (private or public).
+2. Go to https://render.com -> New + -> Web Service (or Blueprint).
+3. Connect your GitHub repo (`render.yaml` is auto-detected!):
+   - Build Command: pip install -r requirements.txt
+   - Start Command: python app.py
+   - Health Check Path: /api/health
+4. Click Deploy -> You get a permanent link like:
+   https://surgie-bot.onrender.com
+   Open it on Google Chrome / mobile / desktop anytime!
+
+--------------------------------------------------------------------
+OPTION 2: RAILWAY.APP (FAST 24/7 DOCKER DEPLOY)
+--------------------------------------------------------------------
+1. Push folder to GitHub OR run `railway up` inside the folder.
+2. Railway automatically uses `Dockerfile` / `railway.toml`.
+3. Generate a public domain in Settings -> Networking:
+   https://surgie-bot-production.up.railway.app
+
+--------------------------------------------------------------------
+OPTION 3: GOOGLE CLOUD RUN (SCALES ON GOOGLE CLOUD)
+--------------------------------------------------------------------
+Run from inside the unzipped folder with gcloud CLI:
+  gcloud run deploy surgie-bot --source . --allow-unauthenticated --port 8080
+
+--------------------------------------------------------------------
+CONNECTING EXNESS MT5 TO YOUR PERMANENT URL
+--------------------------------------------------------------------
+1. Once live at e.g. https://surgie-bot.onrender.com:
+   Open https://surgie-bot.onrender.com/sentinel/
+   Click "Download MT5 EA (.mq5)" or "Download Python MT5 Worker".
+   The server automatically sets InpServerUrl to your permanent
+   https://<your-domain>/sentinel URL!
+2. In Exness MT5 -> Tools -> Options -> Expert Advisors:
+   Allow WebRequest for: https://surgie-bot.onrender.com
+3. Optional Security: Set environment variable `BOT_ADMIN_PIN=yourpin`
+   in your cloud host dashboard if you share the link publicly and want
+   to prevent strangers from toggling your Exness execution bot.
+====================================================================
